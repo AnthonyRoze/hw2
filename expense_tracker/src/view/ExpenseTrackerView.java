@@ -19,7 +19,9 @@ public class ExpenseTrackerView extends JFrame {
   private JFormattedTextField amountField;
   private JTextField categoryField;
   private DefaultTableModel model;
-  
+  private JTextField filterField;
+  private JComboBox<String> filterTypeBox;
+  private JButton filterBtn;
 
   public ExpenseTrackerView() {
     setTitle("Expense Tracker"); // Set title
@@ -64,7 +66,17 @@ public class ExpenseTrackerView extends JFrame {
     setSize(400, 300);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
-  
+
+    JLabel filterLabel = new JLabel("Filter by:");
+    String[] filterOptions = {"amount", "category"};
+    filterTypeBox = new JComboBox<>(filterOptions);
+    filterField = new JTextField(10);
+    filterBtn = new JButton("Apply Filter");
+
+    inputPanel.add(filterLabel);
+    inputPanel.add(filterTypeBox);
+    inputPanel.add(filterField);
+    inputPanel.add(filterBtn);
   }
 
   public void refreshTable(List<Transaction> transactions) {
@@ -124,5 +136,19 @@ public class ExpenseTrackerView extends JFrame {
 
   public void setCategoryField(JTextField categoryField) {
     this.categoryField = categoryField;
+  }
+
+  public void showError(String message) {
+    JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+  }
+
+  public void setFilterButtonAction(Runnable applyFilterCallback) {
+    filterBtn.addActionListener(e -> applyFilterCallback.run());
+  }
+  public String getSelectedFilterType() {
+      return filterTypeBox.getSelectedItem().toString();
+  }
+  public String getFilterValue() {
+      return filterField.getText();
   }
 }
