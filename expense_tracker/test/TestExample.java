@@ -3,7 +3,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,6 +36,27 @@ public class TestExample {
     
 
 
+    @Test
+    public void testAddInvalidTransaction() {
+                // Pre-condition: List of transactions is empty
+        assertEquals(0, model.getTransactions().size());
+    
+        // Perform the action: Add a transaction
+        try {
+            controller.addTransaction(50.0, "ford" );
+            controller.addTransaction(-2.0, "ford" );
+        } catch (Exception e) {
+            System.out.print(e);
+            assertTrue(true);
+        }
+        
+    
+        // Post-condition: List of transactions contains one transaction
+        assertEquals(0, model.getTransactions().size());
+    
+        // Check the contents of the list
+        assertEquals(0.00, getTotalCost(), 0.01);
+    }
     @Test
     public void testAddTransaction() {
         // Pre-condition: List of transactions is empty
